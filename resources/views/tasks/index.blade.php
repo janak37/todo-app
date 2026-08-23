@@ -6,8 +6,13 @@
 
     @foreach($tasks as $task)
         <div class="task">
-            <span class="{{ $task->is_completed ? 'completed' : '' }}">
-                {{ $task->title }}
+            <span>
+                <a class="{{ $task->is_completed ? 'completed' : '' }}" href="{{ route('tasks.show', $task) }}">
+                    {{ $task->title }}
+                </a>
+                @if($task->submission_date)
+                    <small>Submission date: {{ $task->submission_date->format('M j, Y') }}</small>
+                @endif
             </span>
             <span>
                 <form action="{{ route('tasks.toggle', $task) }}" method="POST" style="display:inline">

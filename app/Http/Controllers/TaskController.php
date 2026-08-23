@@ -23,6 +23,14 @@ class TaskController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(Task $task)
+    {
+        return view('tasks.show', compact('task'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -30,9 +38,10 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'submission_date' => 'nullable|date',
         ]);
 
-        Task::create($request->only('title', 'description'));
+        Task::create($request->only('title', 'description', 'submission_date'));
         return redirect()->route('tasks.index')->with('success', 'Task added!');
     }
 
@@ -52,9 +61,10 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'submission_date' => 'nullable|date',
         ]);
 
-        $task->update($request->only('title', 'description'));
+        $task->update($request->only('title', 'description', 'submission_date'));
         return redirect()->route('tasks.index')->with('success', 'Task updated!');
     }
 
