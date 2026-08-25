@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    
+    /**
+     * Display a listing of the tasks.
+     */
     public function index()
     {
         $tasks = Task::latest()->get();
@@ -46,7 +48,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      */
     public function edit(Task $task)
     {
@@ -54,7 +56,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update the specified resource in storage.
      */
     public function update(Request $request, Task $task)
     {
@@ -69,7 +71,7 @@ class TaskController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Toggle the completion status of the task.
      */
     public function toggle(Task $task)
     {
@@ -79,6 +81,9 @@ class TaskController extends Controller
       
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Task $task)
     {
         $task->delete();
