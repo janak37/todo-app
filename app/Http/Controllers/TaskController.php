@@ -37,13 +37,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'submission_date' => 'nullable|date',
-        ]);
+        $validated = $this->validateTask($request);
 
-        Task::create($request->only('title', 'description', 'submission_date'));
+        Task::create($validated);
         return redirect()->route('tasks.index')->with('success', 'Task added!');
     }
 
@@ -60,14 +56,19 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $request->validate([
+        $validated = $this->validateTask($request);
+
+        $task->update($validated);
+        return redirect()->route('tasks.index')->with('success', 'Task updated!');
+    }
+
+    private function validateTask(Request $request): array
+    {
+        return $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'submission_date' => 'nullable|date',
         ]);
-
-        $task->update($request->only('title', 'description', 'submission_date'));
-        return redirect()->route('tasks.index')->with('success', 'Task updated!');
     }
 
     /**
