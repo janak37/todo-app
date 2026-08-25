@@ -23,4 +23,9 @@ class Task extends Model
             'is_completed' => 'boolean',
         ];
     }
+
+    public static function completedCount(): int
+    {
+        return static::where('is_completed', true)->count();
+    }
 }

@@ -13,7 +13,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::latest()->paginate(10);
-        $completed = Task::where('is_completed', true)->count();
+        $completed = Task::completedCount();
 
         return view('tasks.index', compact('tasks', 'completed'));
     }
