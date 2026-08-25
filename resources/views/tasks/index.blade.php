@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @php($completed = $tasks->where('is_completed', true)->count())
     <div class="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
         <div>
             <p class="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Your workspace</p>
@@ -9,7 +8,7 @@
             <p class="mt-3 text-slate-500">Keep the important things moving.</p>
         </div>
         <div class="flex gap-6 border-l-2 border-amber-400 pl-4 text-sm">
-            <div><p class="text-2xl font-bold">{{ $tasks->count() }}</p><p class="text-slate-500">Total</p></div>
+            <div><p class="text-2xl font-bold">{{ $tasks->total() }}</p><p class="text-slate-500">Total</p></div>
             <div><p class="text-2xl font-bold">{{ $completed }}</p><p class="text-slate-500">Done</p></div>
         </div>
     </div>
@@ -44,6 +43,9 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="mt-6">
+            {{ $tasks->links() }}
         </div>
     @endif
 @endsection
