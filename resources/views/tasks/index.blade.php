@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'My Tasks · Taskflow')
 
 @section('content')
     <div class="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
