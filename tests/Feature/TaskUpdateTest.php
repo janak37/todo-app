@@ -17,10 +17,9 @@ class TaskUpdateTest extends TestCase
             'description' => 'Old description',
         ]);
 
-        $response = $this->put(route('tasks.update', $task), [
-        'title' => 'New title',
-        'description' => 'New description',
-        'submission_date' => '2026-09-01',
+   $response = $this->put(route('tasks.update', $task), [
+    'title' => 'New title',
+    'description' => 'New description',
 ]);
         $response->assertRedirect(route('tasks.index'));
         $this->assertDatabaseHas('tasks', [

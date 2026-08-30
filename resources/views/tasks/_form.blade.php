@@ -9,7 +9,7 @@
 </div>
 <div>
     <label for="description" class="mb-2 block text-sm font-bold">Description</label>
-    <textarea id="description" name="description" rows="5" placeholder="Add a little context..." class="w-full resize-y rounded-lg border border-slate-300 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">{{ old('description', $task?->description ?? '') }}</textarea>
+    <textarea id="description" name="description" rows="5" required placeholder="Add a little context..." class="w-full resize-y rounded-lg border border-slate-300 px-4 py-3 outline-none transition placeholder:text-slate-400 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">{{ old('description', $task?->description ?? '') }}</textarea>
     @error('description')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
 </div>
 <div>
