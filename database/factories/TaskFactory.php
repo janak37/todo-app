@@ -19,8 +19,8 @@ class TaskFactory extends Factory
     {
         return [
         'title' => fake()->sentence(4),
-        'description' => fake()->optional()->paragraph(),
-        'submission_date' => fake()->optional()->dateTimeBetween('now', '+1 month'),
+        'description' => fake()->paragraph(),
+        'submission_date' => fake()->dateTimeBetween('now', '+1 month'),
         'is_completed' => false,
         ];
     }

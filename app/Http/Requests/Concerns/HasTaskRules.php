@@ -8,8 +8,8 @@ trait HasTaskRules
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
-            'submission_date' => ['nullable', 'date', 'date_format:Y-m-d'],
+            'description' => ['required', 'string', 'max:2000'],
+            'submission_date' => ['required', 'date', 'date_format:Y-m-d'],
         ];
     }
 }
