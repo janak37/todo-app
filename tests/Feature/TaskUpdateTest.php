@@ -17,11 +17,10 @@ class TaskUpdateTest extends TestCase
             'description' => 'Old description',
         ]);
 
-        $response = $this->put(route('tasks.update', $task), [
-            'title' => 'New title',
-            'description' => 'New description',
-        ]);
-
+   $response = $this->put(route('tasks.update', $task), [
+    'title' => 'New title',
+    'description' => 'New description',
+]);
         $response->assertRedirect(route('tasks.index'));
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
