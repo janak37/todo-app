@@ -30,9 +30,4 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public static function completedCount(): int
-    {
-        return static::where('is_completed', true)->count();
-    }
 }
