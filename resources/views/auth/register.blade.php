@@ -6,21 +6,9 @@
         <div class="mb-8 mt-8"><p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Get started</p><h1 class="mt-2 text-4xl font-black tracking-tight">Create account<span class="text-amber-500">.</span></h1></div>
         <form action="{{ route('register') }}" method="POST" class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
             @csrf
-            <div>
-                <label for="name" class="mb-2 block text-sm font-bold">Name</label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" required class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
-                @error('name')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="email" class="mb-2 block text-sm font-bold">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
-                @error('email')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
-            </div>
-            <div>
-                <label for="password" class="mb-2 block text-sm font-bold">Password</label>
-                <input id="password" type="password" name="password" required class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
-                @error('password')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
-            </div>
+            <x-form-input name="name" label="Name" required />
+            <x-form-input name="email" label="Email" type="email" required />
+            <x-form-input name="password" label="Password" type="password" required />
             <div>
                 <label for="password_confirmation" class="mb-2 block text-sm font-bold">Confirm password</label>
                 <input id="password_confirmation" type="password" name="password_confirmation" required class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
