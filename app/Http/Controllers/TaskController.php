@@ -23,7 +23,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        abort_unless($task->user_id === auth()->id(), 404);
+        $this->authorize('view', $task);
 
         return view('tasks.show', compact('task'));
     }
@@ -36,14 +36,14 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        abort_unless($task->user_id === auth()->id(), 404);
+        $this->authorize('update', $task);
 
         return view('tasks.edit', compact('task'));
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        abort_unless($task->user_id === auth()->id(), 404);
+        $this->authorize('update', $task);
 
         $task->update($request->validated());
         return redirect()->route('tasks.index')->with('success', 'Task updated!');
@@ -51,7 +51,7 @@ class TaskController extends Controller
 
     public function toggle(Task $task)
     {
-        abort_unless($task->user_id === auth()->id(), 404);
+        $this->authorize('update', $task);
 
         $task->update(['is_completed' => !$task->is_completed]);
         return back();
@@ -59,7 +59,7 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        abort_unless($task->user_id === auth()->id(), 404);
+        $this->authorize('delete', $task);
 
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Task deleted!');
