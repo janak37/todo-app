@@ -81,7 +81,7 @@ class AuthTest extends TestCase
             'password' => 'wrong-password',
         ]);
 
-        $response->assertSessionHasErrors('email');
+        $response->assertSessionHas('error', 'Those credentials do not match our records.');
         $this->assertGuest();
     }
 

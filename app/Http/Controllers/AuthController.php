@@ -38,9 +38,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (! Auth::attempt($credentials, $request->boolean('remember'))) {
-            return back()->withErrors([
-                'email' => 'Those credentials do not match our records.',
-            ])->onlyInput('email');
+            return back()->withInput($request->only('email'))->with('error', 'Those credentials do not match our records.');
         }
 
         $request->session()->regenerate();
