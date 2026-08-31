@@ -10,16 +10,20 @@ use Tests\TestCase;
 class TaskPaginationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected User $user;
+
     protected function setUp(): void
-{
-    parent::setUp();
-    $this->actingAs(User::factory()->create());
-}
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
 
     public function test_tasks_are_paginated_ten_per_page(): void
     {
         foreach (range(1, 11) as $taskNumber) {
-            Task::create(['title' => "Task {$taskNumber}"]);
+            Task::factory()->for($this->user)->create(['title' => "Task {$taskNumber}"]);
         }
 
         $firstPage = $this->get(route('tasks.index'));
@@ -33,6 +37,4 @@ class TaskPaginationTest extends TestCase
             return $tasks->count() === 1 && $tasks->currentPage() === 2;
         });
     }
-  
-
 }

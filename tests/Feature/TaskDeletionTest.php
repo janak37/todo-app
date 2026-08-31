@@ -10,15 +10,19 @@ use Tests\TestCase;
 class TaskDeletionTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected User $user;
+
     protected function setUp(): void
-{
-    parent::setUp();
-    $this->actingAs(User::factory()->create());
-}
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
 
     public function test_deleting_a_task_hides_it_without_removing_the_database_row(): void
     {
-        $task = Task::create([
+        $task = Task::factory()->for($this->user)->create([
             'title' => 'Keep this record',
             'description' => 'This task should be recoverable.',
         ]);
@@ -32,7 +36,4 @@ class TaskDeletionTest extends TestCase
         ]);
         $this->assertNotNull(Task::withTrashed()->find($task->id));
     }
-  
-
-
 }

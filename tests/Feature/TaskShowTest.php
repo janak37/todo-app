@@ -10,15 +10,19 @@ use Tests\TestCase;
 class TaskShowTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected User $user;
+
     protected function setUp(): void
-{
-    parent::setUp();
-    $this->actingAs(User::factory()->create());
-}
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
 
     public function test_an_existing_task_can_be_viewed(): void
     {
-        $task = Task::factory()->create([
+        $task = Task::factory()->for($this->user)->create([
             'title' => 'Finish the report',
         ]);
 
@@ -34,6 +38,4 @@ class TaskShowTest extends TestCase
 
         $response->assertNotFound();
     }
- 
-
 }
