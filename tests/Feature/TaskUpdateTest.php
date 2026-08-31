@@ -10,23 +10,28 @@ use Tests\TestCase;
 class TaskUpdateTest extends TestCase
 {
     use RefreshDatabase;
-     protected function setUp(): void
+
+    protected User $user;
+
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(User::factory()->create());
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
     }
 
     public function test_a_task_can_be_updated_with_valid_data(): void
     {
-        $task = Task::factory()->create([
+        $task = Task::factory()->for($this->user)->create([
             'title' => 'Old title',
             'description' => 'Old description',
         ]);
 
-   $response = $this->put(route('tasks.update', $task), [
-    'title' => 'New title',
-    'description' => 'New description',
-]);
+        $response = $this->put(route('tasks.update', $task), [
+            'title' => 'New title',
+            'description' => 'New description',
+        ]);
+
         $response->assertRedirect(route('tasks.index'));
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
@@ -37,7 +42,7 @@ class TaskUpdateTest extends TestCase
 
     public function test_a_task_cannot_be_updated_without_a_title(): void
     {
-        $task = Task::factory()->create([
+        $task = Task::factory()->for($this->user)->create([
             'title' => 'Original title',
         ]);
 

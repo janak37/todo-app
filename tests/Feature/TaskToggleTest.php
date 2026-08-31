@@ -10,15 +10,19 @@ use Tests\TestCase;
 class TaskToggleTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected User $user;
+
     protected function setUp(): void
-{
-    parent::setUp();
-    $this->actingAs(User::factory()->create());
-}
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
 
     public function test_toggling_an_incomplete_task_marks_it_completed(): void
     {
-        $task = Task::factory()->create(['is_completed' => false]);
+        $task = Task::factory()->for($this->user)->create(['is_completed' => false]);
 
         $response = $this->patch(route('tasks.toggle', $task));
 
@@ -31,7 +35,7 @@ class TaskToggleTest extends TestCase
 
     public function test_toggling_a_completed_task_marks_it_incomplete(): void
     {
-        $task = Task::factory()->create(['is_completed' => true]);
+        $task = Task::factory()->for($this->user)->create(['is_completed' => true]);
 
         $response = $this->patch(route('tasks.toggle', $task));
 
@@ -41,7 +45,4 @@ class TaskToggleTest extends TestCase
             'is_completed' => false,
         ]);
     }
-   
-
-
 }
