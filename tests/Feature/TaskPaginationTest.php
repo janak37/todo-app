@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskPaginationTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+{
+    parent::setUp();
+    $this->actingAs(User::factory()->create());
+}
 
     public function test_tasks_are_paginated_ten_per_page(): void
     {
@@ -27,4 +33,6 @@ class TaskPaginationTest extends TestCase
             return $tasks->count() === 1 && $tasks->currentPage() === 2;
         });
     }
+  
+
 }

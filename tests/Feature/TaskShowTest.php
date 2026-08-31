@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskShowTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+{
+    parent::setUp();
+    $this->actingAs(User::factory()->create());
+}
 
     public function test_an_existing_task_can_be_viewed(): void
     {
@@ -28,4 +34,6 @@ class TaskShowTest extends TestCase
 
         $response->assertNotFound();
     }
+ 
+
 }

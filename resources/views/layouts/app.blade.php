@@ -13,9 +13,20 @@
                 <span class="grid size-9 place-items-center rounded-xl bg-amber-400 text-sm font-black text-slate-950">TF</span>
                 <span>Taskflow</span>
             </a>
-            <a href="{{ route('tasks.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700">
-                <span class="text-lg leading-none">+</span> New task
-            </a>
+            <div class="flex items-center gap-4">
+                @auth
+                    <a href="{{ route('tasks.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700">
+                        <span class="text-lg leading-none">+</span> New task
+                    </a>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Log out</button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Log in</a>
+                    <a href="{{ route('register') }}" class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700">Sign up</a>
+                @endauth
+            </div>
         </div>
     </header>
     <main class="mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">

@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskUpdateTest extends TestCase
 {
     use RefreshDatabase;
+     protected function setUp(): void
+    {
+        parent::setUp();
+        $this->actingAs(User::factory()->create());
+    }
 
     public function test_a_task_can_be_updated_with_valid_data(): void
     {

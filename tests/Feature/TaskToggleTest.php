@@ -3,12 +3,18 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskToggleTest extends TestCase
 {
     use RefreshDatabase;
+    protected function setUp(): void
+{
+    parent::setUp();
+    $this->actingAs(User::factory()->create());
+}
 
     public function test_toggling_an_incomplete_task_marks_it_completed(): void
     {
@@ -35,4 +41,7 @@ class TaskToggleTest extends TestCase
             'is_completed' => false,
         ]);
     }
+   
+
+
 }
