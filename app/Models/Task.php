@@ -15,6 +15,7 @@ class Task extends Model
         'description',
         'submission_date',
         'is_completed',
+        'user_id',
     ];
 
     protected function casts(): array
@@ -23,6 +24,11 @@ class Task extends Model
             'submission_date' => 'date',
             'is_completed' => 'boolean',
         ];
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public static function completedCount(): int
