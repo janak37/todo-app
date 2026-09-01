@@ -7,6 +7,7 @@
 @endphp
 
 <div
+    x-cloak
     x-data="{ show: true }"
     x-show="show"
     x-init="setTimeout(() => show = false, 4000)"
