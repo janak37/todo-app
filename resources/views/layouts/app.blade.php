@@ -36,6 +36,12 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if(session('error'))
+            <div class="mb-8 flex items-center gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-800" role="alert">
+                <span class="grid size-6 place-items-center rounded-full bg-rose-500 text-xs font-bold text-white">!</span>
+                {{ session('error') }}
+            </div>
+        @endif
         @yield('content')
     </main>
 </body>

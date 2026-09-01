@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DestroyTaskRequest;
+use App\Http\Requests\EditTaskRequest;
+use App\Http\Requests\ShowTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\ToggleTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
 
@@ -21,10 +25,8 @@ class TaskController extends Controller
         return view('tasks.create');
     }
 
-    public function show(Task $task)
+    public function show(ShowTaskRequest $request, Task $task)
     {
-        $this->authorize('view', $task);
-
         return view('tasks.show', compact('task'));
     }
 
@@ -34,33 +36,25 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task added!');
     }
 
-    public function edit(Task $task)
+    public function edit(EditTaskRequest $request, Task $task)
     {
-        $this->authorize('update', $task);
-
         return view('tasks.edit', compact('task'));
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        $this->authorize('update', $task);
-
         $task->update($request->validated());
         return redirect()->route('tasks.index')->with('success', 'Task updated!');
     }
 
-    public function toggle(Task $task)
+    public function toggle(ToggleTaskRequest $request, Task $task)
     {
-        $this->authorize('update', $task);
-
         $task->update(['is_completed' => !$task->is_completed]);
         return back();
     }
 
-    public function destroy(Task $task)
+    public function destroy(DestroyTaskRequest $request, Task $task)
     {
-        $this->authorize('delete', $task);
-
         $task->delete();
         return redirect()->route('tasks.index')->with('success', 'Task deleted!');
     }
