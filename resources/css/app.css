@@ -15,4 +15,8 @@
         background-image: radial-gradient(#cbd5e1 0.7px, transparent 0.7px);
         background-size: 18px 18px;
     }
+
+    [x-cloak] {
+        display: none !important;
+    }
 }

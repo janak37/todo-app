@@ -31,16 +31,10 @@
     </header>
     <main class="mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
         @if(session('success'))
-            <div class="mb-8 flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800" role="status">
-                <span class="grid size-6 place-items-center rounded-full bg-emerald-500 text-xs font-bold text-white">✓</span>
-                {{ session('success') }}
-            </div>
+            <x-toast type="success" :message="session('success')" />
         @endif
         @if(session('error'))
-            <div class="mb-8 flex items-center gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-800" role="alert">
-                <span class="grid size-6 place-items-center rounded-full bg-rose-500 text-xs font-bold text-white">!</span>
-                {{ session('error') }}
-            </div>
+            <x-toast type="error" :message="session('error')" />
         @endif
         @yield('content')
     </main>

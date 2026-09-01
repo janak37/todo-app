@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('tasks.index'));
+        return redirect()->intended(route('tasks.index'))->with('success', 'Welcome back, ' . Auth::user()->name . '!');
     }
 
     public function logout()
@@ -53,6 +53,6 @@ class AuthController extends Controller
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'You have been logged out.');
     }
 }
