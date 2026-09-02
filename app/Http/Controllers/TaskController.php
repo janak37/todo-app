@@ -33,6 +33,7 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         auth()->user()->tasks()->create($request->validated());
+
         return to_route('tasks.index')->with('success', 'Task added!');
     }
 
@@ -44,18 +45,21 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $task->update($request->validated());
+
         return to_route('tasks.index')->with('success', 'Task updated!');
     }
 
     public function toggle(ToggleTaskRequest $request, Task $task)
     {
-        $task->update(['is_completed' => !$task->is_completed]);
+        $task->update(['is_completed' => ! $task->is_completed]);
+
         return back();
     }
 
     public function destroy(DestroyTaskRequest $request, Task $task)
     {
         $task->delete();
+
         return to_route('tasks.index')->with('success', 'Task deleted!');
     }
 }
