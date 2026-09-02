@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -10,11 +9,12 @@ use Tests\TestCase;
 class TaskStoreTest extends TestCase
 {
     use RefreshDatabase;
+
     protected function setUp(): void
-{
-    parent::setUp();
-    $this->actingAs(User::factory()->create());
-}
+    {
+        parent::setUp();
+        $this->actingAs(User::factory()->create());
+    }
 
     public function test_a_task_can_be_created_with_valid_data(): void
     {
@@ -43,7 +43,4 @@ class TaskStoreTest extends TestCase
             'description' => 'This should fail validation',
         ]);
     }
-    
-
-
 }
