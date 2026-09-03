@@ -4,14 +4,49 @@
 @section('content')
     <div class="mx-auto max-w-md">
         <div class="mb-8 mt-8"><p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Get started</p><h1 class="mt-2 text-4xl font-black tracking-tight">Create account<span class="text-amber-500">.</span></h1></div>
-        <form action="{{ route('register') }}" method="POST" class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <form
+            action="{{ route('register') }}"
+            method="POST"
+            novalidate
+            class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+            x-data="{
+                password: '',
+                confirmation: '',
+                submitted: false,
+                get mismatched() { return this.confirmation.length > 0 && this.password !== this.confirmation; }
+            }"
+            @submit="if (!$el.checkValidity()) { $event.preventDefault(); submitted = true; }"
+        >
             @csrf
             <x-form-input name="name" label="Name" required />
             <x-form-input name="email" label="Email" type="email" required />
-            <x-form-input name="password" label="Password" type="password" required />
+            <div>
+                <label for="password" class="mb-2 block text-sm font-bold">Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    required
+                    x-model="password"
+                    :class="submitted && password.trim().length === 0 ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
+                    class="w-full rounded-lg border px-4 py-3 outline-none transition focus:ring-4"
+                >
+                <p x-show="submitted && password.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
+                @error('password')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
+            </div>
             <div>
                 <label for="password_confirmation" class="mb-2 block text-sm font-bold">Confirm password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
+                <input
+                    id="password_confirmation"
+                    type="password"
+                    name="password_confirmation"
+                    required
+                    x-model="confirmation"
+                    :class="(submitted && confirmation.trim().length === 0) || mismatched ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
+                    class="w-full rounded-lg border px-4 py-3 outline-none transition focus:ring-4"
+                >
+                <p x-show="submitted && confirmation.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
+                <p x-show="confirmation.trim().length > 0 && mismatched" x-cloak class="mt-2 text-sm text-rose-600">Passwords do not match.</p>
             </div>
             <div class="flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
                 <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Already have an account?</a>

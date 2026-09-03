@@ -4,7 +4,14 @@
 @section('content')
     <div class="mx-auto max-w-md">
         <div class="mb-8 mt-8"><p class="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Welcome back</p><h1 class="mt-2 text-4xl font-black tracking-tight">Log in<span class="text-amber-500">.</span></h1></div>
-        <form action="{{ route('login') }}" method="POST" class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <form
+            action="{{ route('login') }}"
+            method="POST"
+            novalidate
+            x-data="{ submitted: false }"
+            @submit="if (!$el.checkValidity()) { $event.preventDefault(); submitted = true; }"
+            class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+        >
             @csrf
             <x-form-input name="email" label="Email" type="email" required />
             <x-form-input name="password" label="Password" type="password" required />
