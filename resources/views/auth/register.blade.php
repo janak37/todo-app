@@ -12,10 +12,9 @@
             x-data="{
                 password: '',
                 confirmation: '',
-                submitted: false,
                 get mismatched() { return this.confirmation.length > 0 && this.password !== this.confirmation; }
             }"
-            @submit="if (!$el.checkValidity()) { $event.preventDefault(); submitted = true; }"
+            @submit="if (!$el.checkValidity()) { $event.preventDefault(); $store.form.submitted = true; }"
         >
             @csrf
             <x-form-input name="name" label="Name" required />
@@ -28,10 +27,10 @@
                     name="password"
                     required
                     x-model="password"
-                    :class="submitted && password.trim().length === 0 ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
+                    :class="$store.form.submitted && password.trim().length === 0 ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
                     class="w-full rounded-lg border px-4 py-3 outline-none transition focus:ring-4"
                 >
-                <p x-show="submitted && password.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
+                <p x-show="$store.form.submitted && password.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
                 @error('password')<p class="mt-2 text-sm text-rose-600">{{ $message }}</p>@enderror
             </div>
             <div>
@@ -42,10 +41,10 @@
                     name="password_confirmation"
                     required
                     x-model="confirmation"
-                    :class="(submitted && confirmation.trim().length === 0) || mismatched ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
+                    :class="($store.form.submitted && confirmation.trim().length === 0) || mismatched ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/10' : 'border-slate-300 focus:border-amber-500 focus:ring-amber-500/10'"
                     class="w-full rounded-lg border px-4 py-3 outline-none transition focus:ring-4"
                 >
-                <p x-show="submitted && confirmation.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
+                <p x-show="$store.form.submitted && confirmation.trim().length === 0" x-cloak class="mt-2 text-sm text-rose-600">This field is required.</p>
                 <p x-show="confirmation.trim().length > 0 && mismatched" x-cloak class="mt-2 text-sm text-rose-600">Passwords do not match.</p>
             </div>
             <div class="flex items-center justify-between gap-4 border-t border-slate-100 pt-6">

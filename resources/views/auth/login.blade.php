@@ -8,8 +8,7 @@
             action="{{ route('login') }}"
             method="POST"
             novalidate
-            x-data="{ submitted: false }"
-            @submit="if (!$el.checkValidity()) { $event.preventDefault(); submitted = true; }"
+            @submit="if (!$el.checkValidity()) { $event.preventDefault(); $store.form.submitted = true; }"
             class="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
         >
             @csrf
