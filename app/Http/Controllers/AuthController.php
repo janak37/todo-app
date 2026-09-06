@@ -17,11 +17,21 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
+        ds($request->validated())->label('register: validated request data');
+
+        $plainPassword = $request->validated('password');
+        ds($plainPassword)->label('register: password before Hash::make()');
+
+        $hashedPassword = Hash::make($plainPassword);
+        ds($hashedPassword)->label('register: password after Hash::make()');
+
         $user = User::create([
             'name' => $request->validated('name'),
             'email' => $request->validated('email'),
-            'password' => Hash::make($request->validated('password')),
+            'password' => $hashedPassword,
         ]);
+
+        ds($user)->label('register: created user');
 
         Auth::login($user);
 
@@ -36,8 +46,12 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
+        ds($credentials)->label('login: credentials submitted');
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        $attemptResult = Auth::attempt($credentials, $request->boolean('remember'));
+        ds($attemptResult)->label('login: Auth::attempt() result');
+
+        if (! $attemptResult) {
             return back()->withInput($request->only('email'))->with('error', 'Those credentials do not match our records.');
         }
 
