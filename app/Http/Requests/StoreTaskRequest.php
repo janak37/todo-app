@@ -18,4 +18,10 @@ class StoreTaskRequest extends FormRequest
     {
         return $this->taskRules();
     }
+
+    protected function passedValidation(): void
+    {
+        ds($this->validated())->label('StoreTaskRequest: validated data');
+        ds($this->user())->label('StoreTaskRequest: authenticated user');
+    }
 }
