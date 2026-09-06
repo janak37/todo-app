@@ -14,7 +14,14 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = auth()->user()->tasks()->latest()->paginate(10);
+        ds(auth()->user())->label('index: authenticated user');
+
+        $tasksQuery = auth()->user()->tasks()->latest();
+        ds($tasksQuery->toSql())->label('index: tasks query SQL');
+
+        $tasks = $tasksQuery->paginate(10);
+        ds($tasks->total())->label('index: total tasks count');
+
         $completed = auth()->user()->tasks()->where('is_completed', true)->count();
 
         return view('tasks.index', compact('tasks', 'completed'));
@@ -32,7 +39,11 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {
-        auth()->user()->tasks()->create($request->validated());
+        ds($request->validated())->label('store: validated request data');
+
+        $task = auth()->user()->tasks()->create($request->validated());
+
+        ds($task)->label('store: task saved (note user_id)');
 
         return to_route('tasks.index')->with('success', 'Task added!');
     }
