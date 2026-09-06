@@ -14,6 +14,8 @@ class TaskPolicy
 
     public function view(User $user, Task $task): bool
     {
+        ds($user->id, $task->user_id)->label('view: user->id vs task->user_id');
+
         abort_unless($task->user_id === $user->id, 404);
 
         return true;
@@ -26,6 +28,8 @@ class TaskPolicy
 
     public function update(User $user, Task $task): bool
     {
+        ds($user->id, $task->user_id)->label('update: user->id vs task->user_id');
+
         abort_unless($task->user_id === $user->id, 404);
 
         return true;
