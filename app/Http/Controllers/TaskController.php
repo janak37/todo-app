@@ -14,10 +14,20 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = auth()->user()->tasks()->latest()->paginate(10);
+        $search = request('q');
+        $status = request('status', 'all');
+        $sort = request('sort', 'latest');
+
+        $tasks = auth()->user()->tasks()
+            ->search($search)
+            ->status($status)
+            ->ordered($sort)
+            ->paginate(10)
+            ->withQueryString();
+
         $completed = auth()->user()->tasks()->where('is_completed', true)->count();
 
-        return view('tasks.index', compact('tasks', 'completed'));
+        return view('tasks.index', compact('tasks', 'completed', 'search', 'status', 'sort'));
     }
 
     public function create()
