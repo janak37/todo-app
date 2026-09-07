@@ -115,8 +115,8 @@ class TaskSearchFilterSortTest extends TestCase
         $response = $this->get(route('tasks.index', ['sort' => 'due_asc']));
 
         $response->assertViewHas('tasks', function ($tasks) use ($sooner, $later) {
-            return $tasks->first()->id === $sooner->id
-                && $tasks->last()->id === $later->id;
+            return $sooner->id === $tasks->first()->id
+                && $later->id === $tasks->last()->id;
         });
     }
 
@@ -134,8 +134,8 @@ class TaskSearchFilterSortTest extends TestCase
         $response = $this->get(route('tasks.index', ['sort' => 'due_desc']));
 
         $response->assertViewHas('tasks', function ($tasks) use ($sooner, $later) {
-            return $tasks->first()->id === $later->id
-                && $tasks->last()->id === $sooner->id;
+            return $later->id === $tasks->first()->id
+                && $sooner->id === $tasks->last()->id;
         });
     }
 
