@@ -14,6 +14,9 @@
             @csrf
             <x-form-input name="email" label="Email" type="email" required />
             <x-form-input name="password" label="Password" type="password" required />
+            <div class="text-right">
+                <a href="{{ route('password.request') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Forgot password?</a>
+            </div>
             <label class="flex items-center gap-2 text-sm text-slate-600">
                 <input type="checkbox" name="remember" class="rounded border-slate-300">
                 Remember me
