@@ -31,3 +31,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('livewire')->name('livewire.')->group(function () {
     Route::livewire('hello', 'pages::hello');
 });
+
+Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function () {
+    Route::livewire('tasks', 'pages::tasks.index')->name('tasks.index');
+});
