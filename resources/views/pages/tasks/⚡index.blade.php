@@ -56,9 +56,14 @@ new class extends Component
             <h1 class="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl">My tasks<span class="text-amber-500">.</span></h1>
             <p class="mt-3 text-slate-500">Keep the important things moving.</p>
         </div>
-        <div class="flex gap-6 border-l-2 border-amber-400 pl-4 text-sm">
-            <div><p class="text-2xl font-bold">{{ $this->tasks->total() }}</p><p class="text-slate-500">Total</p></div>
-            <div><p class="text-2xl font-bold">{{ $this->completed }}</p><p class="text-slate-500">Done</p></div>
+        <div class="flex items-center gap-6">
+            <div class="flex gap-6 border-l-2 border-amber-400 pl-4 text-sm">
+                <div><p class="text-2xl font-bold">{{ $this->tasks->total() }}</p><p class="text-slate-500">Total</p></div>
+                <div><p class="text-2xl font-bold">{{ $this->completed }}</p><p class="text-slate-500">Done</p></div>
+            </div>
+            <a href="{{ route('livewire.tasks.create') }}" class="inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-700">
+                <span class="text-lg leading-none">+</span> New task
+            </a>
         </div>
     </div>
 
