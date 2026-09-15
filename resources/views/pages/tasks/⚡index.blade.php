@@ -113,6 +113,9 @@ new class extends Component
                         <p class="mt-1 text-sm text-slate-500">{{ $task->description ? Str::limit($task->description, 90) : 'No description' }}</p>
                         @if($task->submission_date)<p class="mt-2 text-xs font-semibold text-slate-400">Due {{ $task->submission_date->format('M j, Y') }}</p>@endif
                     </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <a href="{{ route('livewire.tasks.edit', $task) }}" class="font-semibold text-slate-500 hover:text-slate-900">Edit</a>
+                    </div>
                 </div>
             @endforeach
         </div>
