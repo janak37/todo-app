@@ -41,4 +41,5 @@ Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function
 
 Route::prefix('livewire')->name('livewire.')->middleware('guest')->group(function () {
     Route::livewire('register', 'pages::auth.register')->name('register');
+    Route::livewire('login', 'pages::auth.login')->name('login');
 });

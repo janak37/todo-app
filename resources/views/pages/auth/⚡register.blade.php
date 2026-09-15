@@ -67,7 +67,7 @@ new class extends Component
             <input id="password_confirmation" type="password" wire:model="password_confirmation" class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10">
         </div>
         <div class="flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
-            <a href="{{ route('login') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Already have an account?</a>
+            <a href="{{ route('livewire.login') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Already have an account?</a>
             <button type="submit" class="rounded-lg bg-slate-900 px-5 py-3 text-sm font-bold text-white transition hover:bg-slate-700">Create account</button>
         </div>
     </form>
