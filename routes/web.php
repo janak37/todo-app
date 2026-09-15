@@ -35,5 +35,6 @@ Route::prefix('livewire')->name('livewire.')->group(function () {
 Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function () {
     Route::livewire('tasks', 'pages::tasks.index')->name('tasks.index');
     Route::livewire('tasks/create', 'pages::tasks.create')->name('tasks.create');
+    Route::livewire('tasks/{task}', 'pages::tasks.show')->name('tasks.show');
     Route::livewire('tasks/{task}/edit', 'pages::tasks.edit')->name('tasks.edit');
 });

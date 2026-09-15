@@ -109,7 +109,7 @@ new class extends Component
             @foreach($this->tasks as $task)
                 <div class="flex items-center justify-between gap-4 border-b border-slate-100 px-5 py-5 last:border-0 sm:px-7" wire:key="task-{{ $task->id }}">
                     <div class="min-w-0">
-                        <p class="truncate text-base font-bold {{ $task->is_completed ? 'text-slate-400 line-through' : 'text-slate-900' }}">{{ $task->title }}</p>
+                        <a href="{{ route('livewire.tasks.show', $task) }}" class="block truncate text-base font-bold {{ $task->is_completed ? 'text-slate-400 line-through' : 'text-slate-900 hover:text-amber-700' }}">{{ $task->title }}</a>
                         <p class="mt-1 text-sm text-slate-500">{{ $task->description ? Str::limit($task->description, 90) : 'No description' }}</p>
                         @if($task->submission_date)<p class="mt-2 text-xs font-semibold text-slate-400">Due {{ $task->submission_date->format('M j, Y') }}</p>@endif
                     </div>
