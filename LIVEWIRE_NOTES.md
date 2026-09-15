@@ -28,3 +28,15 @@
 **Things I noticed:**
 - Had to click "Create task" with everything empty to actually test validation - the first time I tried I accidentally typed something in the title so it just made a junk task instead of testing the empty case.
 - Livewire's validate() error messages look identical to Blade's since they come from the same Laravel validation language files - no visual difference at all in the @error() output.
+
+# Task iii - Show + toggle + delete
+
+**Blade way:** show.blade.php just displays the task. Toggle is a tiny <form method=POST> with @method(PATCH) that submits to TaskController@toggle. Delete is another form with @method(DELETE) and a plain JS `onclick="return confirm(...)"` before it submits. Both go through TaskPolicy via the route model binding + authorize() calls inside the controller/FormRequest.
+
+**Livewire way:** One component, mount(Task $task) does $this->authorize(view, $task) up front (so even loading the page 404s if you don't own it). Toggle and delete are just wire:click="toggle" and wire:click="delete" on plain buttons - no forms needed at all. Delete also has wire:confirm="..." right on the button which pops the browser's native confirm dialog automatically before calling delete() - no manual JS.
+
+**What's shared:** TaskPolicy - authorize('view', ...), authorize('update', ...), authorize('delete', ...) are the exact same policy methods the Blade side uses. Wrote zero new authorization logic.
+
+**What Livewire replaces:** the two separate <form> + hidden _method field + submit combo for toggle/delete are gone, it's just buttons with wire:click. The manual `onclick="return confirm()"` JS is gone too - wire:confirm does it declaratively in the HTML.
+
+**Nice surprise:** wire:confirm works with zero JS I had to write - I expected to need some x-data/Alpine setup like the delete confirm on my Blade version probably needed originally, but it's literally just an attribute.
