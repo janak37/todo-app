@@ -40,3 +40,19 @@
 **What Livewire replaces:** the two separate <form> + hidden _method field + submit combo for toggle/delete are gone, it's just buttons with wire:click. The manual `onclick="return confirm()"` JS is gone too - wire:confirm does it declaratively in the HTML.
 
 **Nice surprise:** wire:confirm works with zero JS I had to write - I expected to need some x-data/Alpine setup like the delete confirm on my Blade version probably needed originally, but it's literally just an attribute.
+
+# Task iv - Auth (register/login/logout + password reset)
+
+**Blade way:** AuthController handles register/login/logout, each using a FormRequest (RegisterRequest/LoginRequest) for validation. Password reset is a separate PasswordResetController using Password::sendResetLink() / Password::reset(). All behind guest/auth route middleware groups in web.php.
+
+**Livewire way:** Four components - register, login, forgot-password, reset-password - each `use`ing the exact same validation rules as their FormRequest counterparts (copied the rules() array directly since Livewire components don't use FormRequest classes at all). wire:submit calls the action method, same Auth::attempt()/Auth::login()/Password::sendResetLink()/Password::reset() calls as the controllers. Routes sit in their own guest-middleware Livewire group, same idea as the Blade guest group.
+
+**Logout specifically:** didn't build a Livewire component for this at all - it's just a plain <form method=POST> in the Livewire layout posting straight to the existing AuthController@logout route. Not everything needs to be a component; logout has no interactive state so a normal form is simpler and still works fine on a Livewire page.
+
+**What's shared:** the actual FormRequest validation rules arrays, copied field-for-field. Auth::attempt(), Auth::login(), Hash::make(), Password::sendResetLink(), Password::reset() - identical calls to what the controllers already do. TaskPolicy isn't touched here since it's not needed for auth, but same principle as tasks - reuse everything possible, don't rewrite business logic.
+
+**Two real bugs I hit and had to actually understand, not just copy-paste around:**
+
+1. Password reset links kept going to the Blade /reset-password/... URL even when triggered from my Livewire forgot-password page. Turns out Laravel's built-in ResetPassword notification always builds its link by calling route('password.reset', ...) - a hardcoded literal route name inside Laravel's own framework code. Since my Livewire route was named livewire.password.reset (different name), it never got picked, and the Blade route (literally named password.reset) won every time regardless of which page sent the email. Fixed it by calling ResetPassword::createUrlUsing(...) right before Password::sendResetLink() inside my component only, pointing it at the livewire.password.reset route, then immediately setting it back to null after - so this override only affects this one call and never leaks into the Blade flow.
+
+2. My reset-password component had a method called reset() and Livewire's base Component class already HAS a method called reset() (used internally for resetting properties to defaults). Declaring my own broke with a "must be compatible with Livewire\Component::reset()" fatal error. Renamed mine to resetPassword() and it worked immediately. Lesson: don't use mount, render, or reset as your own method names in a Livewire component.
