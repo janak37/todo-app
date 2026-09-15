@@ -38,3 +38,7 @@ Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function
     Route::livewire('tasks/{task}', 'pages::tasks.show')->name('tasks.show');
     Route::livewire('tasks/{task}/edit', 'pages::tasks.edit')->name('tasks.edit');
 });
+
+Route::prefix('livewire')->name('livewire.')->middleware('guest')->group(function () {
+    Route::livewire('register', 'pages::auth.register')->name('register');
+});
