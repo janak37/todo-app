@@ -68,12 +68,15 @@ new class extends Component
     </div>
 
     <div class="mb-8 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
-        <input
-            type="text"
-            wire:model.live.debounce.300ms="search"
-            placeholder="Search title or description..."
-            class="w-full flex-1 rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-100"
-        >
+        <div class="relative w-full flex-1">
+            <input
+                type="text"
+                wire:model.live.debounce.300ms="search"
+                placeholder="Search title or description..."
+                class="w-full rounded-lg border border-slate-200 px-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-100"
+            >
+            <span wire:loading wire:target="search" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-amber-600">Searching…</span>
+        </div>
 
         <select wire:model.live="status" class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 focus:border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-100">
             <option value="all">All</option>
@@ -94,33 +97,39 @@ new class extends Component
         @endif
     </div>
 
-    @if($this->tasks->isEmpty())
-        <div class="rounded-2xl border border-dashed border-slate-300 bg-white/70 px-6 py-16 text-center shadow-sm">
-            @if($search || $status !== 'all')
-                <p class="text-3xl">No matching tasks.</p>
-                <p class="mt-2 text-slate-500">Try a different search or filter.</p>
-            @else
-                <p class="text-3xl">Nothing here yet.</p>
-                <p class="mt-2 text-slate-500">Start with one small, clear task.</p>
-            @endif
-        </div>
-    @else
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_40px_-20px_rgba(15,23,42,0.35)]">
-            @foreach($this->tasks as $task)
-                <div class="flex items-center justify-between gap-4 border-b border-slate-100 px-5 py-5 last:border-0 sm:px-7" wire:key="task-{{ $task->id }}">
-                    <div class="min-w-0">
-                        <a href="{{ route('livewire.tasks.show', $task) }}" class="block truncate text-base font-bold {{ $task->is_completed ? 'text-slate-400 line-through' : 'text-slate-900 hover:text-amber-700' }}">{{ $task->title }}</a>
-                        <p class="mt-1 text-sm text-slate-500">{{ $task->description ? Str::limit($task->description, 90) : 'No description' }}</p>
-                        @if($task->submission_date)<p class="mt-2 text-xs font-semibold text-slate-400">Due {{ $task->submission_date->format('M j, Y') }}</p>@endif
+    <div wire:loading.delay wire:target="search,status,sort" class="mb-4 text-xs font-semibold text-amber-600">
+        Updating results…
+    </div>
+
+    <div wire:loading.class="opacity-50" wire:target="search,status,sort">
+        @if($this->tasks->isEmpty())
+            <div class="rounded-2xl border border-dashed border-slate-300 bg-white/70 px-6 py-16 text-center shadow-sm">
+                @if($search || $status !== 'all')
+                    <p class="text-3xl">No matching tasks.</p>
+                    <p class="mt-2 text-slate-500">Try a different search or filter.</p>
+                @else
+                    <p class="text-3xl">Nothing here yet.</p>
+                    <p class="mt-2 text-slate-500">Start with one small, clear task.</p>
+                @endif
+            </div>
+        @else
+            <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_40px_-20px_rgba(15,23,42,0.35)]">
+                @foreach($this->tasks as $task)
+                    <div class="flex items-center justify-between gap-4 border-b border-slate-100 px-5 py-5 last:border-0 sm:px-7" wire:key="task-{{ $task->id }}">
+                        <div class="min-w-0">
+                            <a href="{{ route('livewire.tasks.show', $task) }}" class="block truncate text-base font-bold {{ $task->is_completed ? 'text-slate-400 line-through' : 'text-slate-900 hover:text-amber-700' }}">{{ $task->title }}</a>
+                            <p class="mt-1 text-sm text-slate-500">{{ $task->description ? Str::limit($task->description, 90) : 'No description' }}</p>
+                            @if($task->submission_date)<p class="mt-2 text-xs font-semibold text-slate-400">Due {{ $task->submission_date->format('M j, Y') }}</p>@endif
+                        </div>
+                        <div class="flex items-center gap-4 text-sm">
+                            <a href="{{ route('livewire.tasks.edit', $task) }}" class="font-semibold text-slate-500 hover:text-slate-900">Edit</a>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-4 text-sm">
-                        <a href="{{ route('livewire.tasks.edit', $task) }}" class="font-semibold text-slate-500 hover:text-slate-900">Edit</a>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        <div class="mt-6">
-            {{ $this->tasks->links() }}
-        </div>
-    @endif
+                @endforeach
+            </div>
+            <div class="mt-6">
+                {{ $this->tasks->links() }}
+            </div>
+        @endif
+    </div>
 </div>
