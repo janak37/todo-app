@@ -1,0 +1,5 @@
+Task i - Tasks index (search + filter + sort + pagination)
+Blade way: TaskController@index reads request('q'), request('status'), request('sort'), builds the query, returns the view. The blade file has a form that submits on "Filter" click and reloads the whole page. URL params are kept across pagination with withQueryString().
+Livewire way: One file, resources/views/pages/tasks/⚡index.blade.php, has the PHP class and the template together. The three filters are just public properties with #[Url(as: 'q')] etc on them, and the inputs use wire:model.live so typing/selecting fires an update automatically - no submit button, no reload. Livewire keeps the URL in sync on its own because of the #[Url] attribute.
+What's shared (didn't duplicate anything): the actual query logic - Task::search()->status()->ordered() - is called exactly the same way in both. Same scopes, same paginate(10), same Tailwind markup basically copy-pasted for the cards and empty states.
+What Livewire actually replaces: the whole "submit form -> reload page -> controller reads request()" cycle is gone. It's just "type -> background request -> DOM updates" instead.
