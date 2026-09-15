@@ -28,6 +28,12 @@
         </div>
     </header>
     <main class="mx-auto max-w-5xl px-5 py-10 sm:px-8 sm:py-14">
+        @if(session('success'))
+            <x-toast type="success" :message="session('success')" />
+        @endif
+        @if(session('error'))
+            <x-toast type="error" :message="session('error')" />
+        @endif
         {{ $slot }}
     </main>
     @livewireScripts
