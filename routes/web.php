@@ -42,4 +42,6 @@ Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function
 Route::prefix('livewire')->name('livewire.')->middleware('guest')->group(function () {
     Route::livewire('register', 'pages::auth.register')->name('register');
     Route::livewire('login', 'pages::auth.login')->name('login');
+    Route::livewire('forgot-password', 'pages::auth.forgot-password')->name('password.request');
+    Route::livewire('reset-password/{token}', 'pages::auth.reset-password')->name('password.reset');
 });
