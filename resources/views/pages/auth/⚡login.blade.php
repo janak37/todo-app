@@ -29,7 +29,7 @@ new class extends Component
             return;
         }
 
-        request()->session()->regenerate();
+        session()->regenerate();
 
         session()->flash('success', 'Welcome back, '.Auth::user()->name.'!');
 
@@ -55,7 +55,7 @@ new class extends Component
                 <input type="checkbox" wire:model="remember" class="rounded border-slate-300">
                 Remember me
             </label>
-            <a href="{{ route('password.request') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Forgot password?</a>
+            <a href="{{ route('livewire.password.request') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Forgot password?</a>
         </div>
         <div class="flex items-center justify-between gap-4 border-t border-slate-100 pt-6">
             <a href="{{ route('livewire.register') }}" class="text-sm font-semibold text-slate-500 hover:text-slate-900">Need an account?</a>
