@@ -29,19 +29,18 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::prefix('livewire')->name('livewire.')->group(function () {
-    Route::livewire('hello', 'pages::hello');
-});
 
-Route::prefix('livewire')->name('livewire.')->middleware('auth')->group(function () {
-    Route::livewire('tasks', 'pages::tasks.index')->name('tasks.index');
-    Route::livewire('tasks/create', 'pages::tasks.create')->name('tasks.create');
-    Route::livewire('tasks/{task}', 'pages::tasks.show')->name('tasks.show');
-    Route::livewire('tasks/{task}/edit', 'pages::tasks.edit')->name('tasks.edit');
-});
+    Route::group(['middleware' => 'auth'], function () {
+        Route::livewire('tasks', 'pages::tasks.index')->name('tasks.index');
+        Route::livewire('tasks/create', 'pages::tasks.create')->name('tasks.create');
+        Route::livewire('tasks/{task}', 'pages::tasks.show')->name('tasks.show');
+        Route::livewire('tasks/{task}/edit', 'pages::tasks.edit')->name('tasks.edit');
+    });
 
-Route::prefix('livewire')->name('livewire.')->middleware('guest')->group(function () {
-    Route::livewire('register', 'pages::auth.register')->name('register');
-    Route::livewire('login', 'pages::auth.login')->name('login');
-    Route::livewire('forgot-password', 'pages::auth.forgot-password')->name('password.request');
-    Route::livewire('reset-password/{token}', 'pages::auth.reset-password')->name('password.reset');
+    Route::group(['middleware' => 'guest'], function () {
+        Route::livewire('register', 'pages::auth.register')->name('register');
+        Route::livewire('login', 'pages::auth.login')->name('login');
+        Route::livewire('forgot-password', 'pages::auth.forgot-password')->name('password.request');
+        Route::livewire('reset-password/{token}', 'pages::auth.reset-password')->name('password.reset');
+    });
 });
